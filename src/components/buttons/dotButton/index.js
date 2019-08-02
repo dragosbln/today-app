@@ -5,7 +5,14 @@ import styles from './styles'
 const dot = props => {
     console.log(props)
     return(
-        <TouchableOpacity onPress={props.onPress} style={[styles.button, props.active ? styles.active: null, props.customStyle]}></TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress} 
+            style={
+                [styles.button, 
+                    props.active ? styles.active: null, 
+                    props.customStyle, 
+                    props.radius ? {width: props.radius*2, height: props.radius*2} : null]
+                }>
+        </TouchableOpacity>
     )
 }
 

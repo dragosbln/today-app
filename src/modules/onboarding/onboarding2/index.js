@@ -3,13 +3,15 @@ import { View, Image, SafeAreaView } from 'react-native';
 import Heading from '../../../components/text/Heading'
 import Paragraph from '../../../components/text/Paragraph'
 import styles from './styles'
-import { telescope } from '../../../assets/images'
+import { translation } from '../../../assets/images'
 import Button from '../../../components/buttons/baseButton'
 import ButtonPrimary from '../../../components/buttons/primaryButton'
 import Dots from '../../../components/dotsNavigator'
 
 export default class Screen extends React.Component {
-
+    nextScreen(){
+        this.props.navigation.navigate('Onboarding3')
+    }
 
     render() {
 
@@ -17,24 +19,28 @@ export default class Screen extends React.Component {
             <SafeAreaView style={styles.base}>  
                 <View style={styles.contentContainer}>
                     <View style={styles.imageContainer}>
-                        <Image style={styles.image} source={telescope}/>
+                        <Image style={styles.image} source={translation}/>
                     </View>
                     <View style={styles.headingContainer}>
-                        <Heading>New ways to explore</Heading>
+                        <Heading>Search in nearly 300 languages</Heading>
                     </View>
-                    <View style={styles.paragraphsContainer}>
-                        <View style={styles.paragrahContainer}>
-                            <Paragraph customStyle={styles.paragraphHeader}>Explore feed</Paragraph>
-                            <Paragraph>Recommended reading and daily articles from our community</Paragraph>
+                    <View style={styles.paragrahContainer}>
+                        <Paragraph>We've found the following kanguages on your device:</Paragraph>
+                    </View>
+                    <View style={styles.languagesContainer}>
+                        <View style={styles.primaryLanguage}>
+                            <Paragraph>English</Paragraph>
+                            <View style={styles.primaryTag}>
+                                <Paragraph customStyle={styles.primaryTagText}>PRIMARY</Paragraph>
+                            </View>
                         </View>
-                        <View style={styles.paragrahContainer}>
-                            <Paragraph customStyle={styles.paragraphHeader}>Places tab</Paragraph>
-                            <Paragraph>Discover landmarks near you or discover places across the world</Paragraph>
+                        <View style={styles.language}>
+                            <Paragraph>中文</Paragraph>
                         </View>
-                        <View style={styles.paragrahContainer}>
-                            <Paragraph customStyle={styles.paragraphHeader}>On this day</Paragraph>
-                            <Paragraph>Travel back in time and learn what happened today in history</Paragraph>
-                        </View>
+
+                    </View>
+                    <View style={styles.linkContainer}>
+                        <Paragraph customStyle={styles.linkText}>Learn more about wikipedia</Paragraph>
                     </View>
                     <View style={styles.buttonsContainer}>
                         <View style={styles.buttonSkip}>
@@ -44,7 +50,7 @@ export default class Screen extends React.Component {
                             <Dots activeIndex={2} />
                         </View>
                         <View style={styles.buttonNext}>
-                            <ButtonPrimary label='Next'/>
+                            <ButtonPrimary label='Next' onPress={() => this.nextScreen()} />
                         </View>
                     </View>
                 </View>

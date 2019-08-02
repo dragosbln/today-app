@@ -19,23 +19,18 @@ export default StyleSheet.create({
         marginBottom: '7%'
     },
     imageContainer: {
-        flex: 5,
+        height: 280,
         justifyContent: 'flex-end',
         alignItems: 'center'
     },
     headingContainer: {
         flex: 2,
-        width:'75%',
+        width:'100%',
         justifyContent: 'center'
     },
-    paragraphsContainer: {
-        flex: 5,
-    },
     paragrahContainer: {
-        height: '25%'
-    },
-    paragraphHeader: {
-        fontWeight: '500'
+        flex: 1,
+        width: '90%'
     },
     buttonsContainer: {
         height: 50,
@@ -53,5 +48,34 @@ export default StyleSheet.create({
     },
     dotsContainer: {
         flex: 2
+    },
+    languagesContainer: {
+        flex: 1
+    },
+    primaryLanguage: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    language: {
+        flex: 1
+    },
+    primaryTag: {
+        backgroundColor: colors.gray,
+        height: 23,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        borderRadius: 3
+    },
+    primaryTagText:{
+        color: '#fff',
+        fontWeight: '500'
+    },
+    linkContainer: {
+        flex: 3
+    },
+    linkText: {
+        color: colors.primary
     }
 })

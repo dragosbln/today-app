@@ -11,7 +11,7 @@ import Dots from '../../../components/dotsNavigator'
 export default class Screen extends React.Component {
 
     nextScreen(){
-        this.props.navigation.navigate('Screen1')
+        this.props.navigation.navigate('Onboarding1')
     }
 
     render() {
