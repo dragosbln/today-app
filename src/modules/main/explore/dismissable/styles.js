@@ -9,6 +9,8 @@ export default StyleSheet.create({
     dismissable: {
         height: screenWidth/1.1,
         alignItems: 'center',
+        marginBottom: '5%',
+        backgroundColor: '#fff'
     },
     imageContainer: {
         width: '100%',

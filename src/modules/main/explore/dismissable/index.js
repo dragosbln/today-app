@@ -20,7 +20,7 @@ const dismissable = props => {
                 </View>
 
                 <View style={styles.buttonContainer}>
-                        <Button label='Dismiss' onPress={() => null}/>
+                        <Button label='Dismiss' onPress={props.onClose}/>
                 </View>
             </View>
         )

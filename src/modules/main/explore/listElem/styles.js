@@ -8,15 +8,28 @@ export default StyleSheet.create({
     
     container: {
         width: '100%',
-        maxHeight: screenHeight/2,
-        flexDirection: 'row'
+        height: screenHeight/3,
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+    },
+    paddingTop: {
+        paddingTop: '5%'
     },
     lineView: {
         width:screenWidth/6,
         height: '100%',
-        borderRightWidth: 1,
-        borderRightColor: colors.primary,
         marginTop: '3%'
+    },
+    line: {
+        width: 1,
+        height: '105%',
+        backgroundColor: colors.primary,
+        position: 'absolute',
+        right: 0,
+        top: '-5%'
+    },
+    lineFirst: {
+        top: '-12.5%'
     },
     dotView:{
         width: 14,
@@ -34,15 +47,16 @@ export default StyleSheet.create({
     dotViewActive: {
         width: 26,
         height: 26,
-        borderWidth: 2,
         borderRadius: 13,
-        backgroundColor: '#fff',
-        borderColor: colors.primary,
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
         right: -13,
         top: -13
+    },
+    dotViewDone: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        top: -8,
+        right: -8
     },
     contentContainer: {
         marginLeft: '10%',
@@ -61,11 +75,16 @@ export default StyleSheet.create({
         color: colors.gray
     },
     descriptionView: {
+        height: '30%',
         width: '77%',
-        marginBottom: '7%'
+        paddingBottom: '7%'
     },
     cardsContainer: {
-        flexDirection: 'row',
-        padding: 5
+        height: '20%',
+        padding: 5,
+        marginBottom: 20
+    },
+    scrollHack: {
+        width: 75
     }
 })

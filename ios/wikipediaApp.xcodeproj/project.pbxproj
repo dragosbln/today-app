@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* wikipediaAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* wikipediaAppTests.m */; };
 		0987DC2246296576C3AC871C /* libPods-wikipediaApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3360D1856D1A87C70275FFAE /* libPods-wikipediaApp.a */; };

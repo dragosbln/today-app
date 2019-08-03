@@ -3,7 +3,6 @@ import { TouchableOpacity, Text } from 'react-native';
 import styles from './styles'
 
 const dot = props => {
-    console.log(props)
     return(
         <TouchableOpacity onPress={props.onPress} 
             style={

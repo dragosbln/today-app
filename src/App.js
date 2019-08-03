@@ -14,6 +14,7 @@ import styles from './styles'
 
 console.disableYellowBox = true
 
+
 const tabNavigator = createBottomTabNavigator({
   Explore: ExploreScreen,
   Places: PlacesScreen,
