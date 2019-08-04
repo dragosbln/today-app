@@ -25,12 +25,22 @@ export default class Explore extends React.Component{
     }
 
     getEvents = async () => {
+
         if(this.state.finnishedLoading) return
         this.setState(state => ({
             ...state,
             loadingData: true
         }))
+        
         const eventsResponse = await AppService.getEvents();
+        if(!eventsResponse) {
+            this.setState(state => ({
+                ...state,
+                loadingData: false
+            }))
+            return
+        }
+        
         this.setState(state => ({
             ...state,
             loadingData: false,
@@ -51,8 +61,15 @@ export default class Explore extends React.Component{
         this.getEvents()
     }
 
-    checkOffset = (offset) => {
+    _isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+        return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+     }
+
+    checkOffset = (event) => {
+        const offset = event.contentOffset.y;
         if(offset < this.state.currentListOffset + this.screenHeight/3 && offset > this.state.currentListOffset) return
+        if(this._isCloseToBottom(event)) this.getEvents()
+
         if(offset > this.state.currentListOffset + this.screenHeight/3){
             return this.setState(state => ({
                 ...state,
@@ -65,7 +82,6 @@ export default class Explore extends React.Component{
             currentListOffset: state.currentListOffset - this.screenHeight/3,
             focusedElementIndex: state.focusedElementIndex - 1
         }))
-        
     }
 
     onDismissableClose = () => {
@@ -91,9 +107,9 @@ export default class Explore extends React.Component{
                     data={this.state.events}
                     ListHeaderComponent={this.state.showDismissable ? <Dismissable onClose={this.onDismissableClose} /> : null}
                     ListFooterComponent={this.state.finnishedLoading ? null : <View><Text>Loading...</Text></View>}
-                    onScrollEndDrag={(event) => console.log(event.nativeEvent)}
-                    onScroll={(event) => this.checkOffset(event.nativeEvent.contentOffset.y)}
-                    onEndReached={this.getEvents}
+                    onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
+                    
+                    onEndReachedThreshold={1}
                     renderItem={({index, item}) => {
                         return (
                             <ListElem first={index === 0}
