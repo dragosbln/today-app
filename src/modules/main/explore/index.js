@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView, View, FlatList, Dimensions } from 'react-native';
+import { KeyboardAvoidingView, View, Text, FlatList, Dimensions } from 'react-native';
 import styles from './styles'
 import Dismissable from './dismissable'
 import Header from '../../../components/header'
@@ -15,28 +15,36 @@ export default class Explore extends React.Component{
         this.state = {
             loadingData: true,
             error: false,
-            events: null,
-            currentListOffset: -this.screenHeight/3,
+            events: [],
+            currentListOffset: this.screenHeight/6,
             focusedElementIndex: 0,
-            showDismissable: true
+            showDismissable: true,
+            finnishedLoading: false
         }
+        this.scrollRef = React.createRef()
     }
 
     getEvents = async () => {
+        if(this.state.finnishedLoading) return
         this.setState(state => ({
             ...state,
             loadingData: true
         }))
-        const events = await AppService.getEvents();
+        const eventsResponse = await AppService.getEvents();
+        this.setState(state => ({
+            ...state,
+            loadingData: false,
+            events: [
+                ...state.events,
+                ...eventsResponse.data
+            ],
+            finnishedLoading: eventsResponse.done
+        }))
        
 
         // console.log(events);
         
-        this.setState(state => ({
-            ...state,
-            loadingData: false,
-            events: events
-        }))
+        
     }
 
     componentDidMount = () => {
@@ -63,8 +71,11 @@ export default class Explore extends React.Component{
     onDismissableClose = () => {
         this.setState(state => ({
             ...state,
-            showDismissable: false
+            showDismissable: false,
+            currentListOffset: -this.screenHeight/3
         }))
+        
+        this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
     }
 
     render() {
@@ -73,13 +84,16 @@ export default class Explore extends React.Component{
             <KeyboardAvoidingView style={styles.base}> 
                 <Header />
                 <FlatList
+                    ref={this.scrollRef}
                     style={styles.main}
-                    refreshing={this.state.loadingData}
+                    refreshing={this.state.loadingData && this.state.events.length === 0}
                     onRefresh={this.getEvents}
                     data={this.state.events}
                     ListHeaderComponent={this.state.showDismissable ? <Dismissable onClose={this.onDismissableClose} /> : null}
+                    ListFooterComponent={this.state.finnishedLoading ? null : <View><Text>Loading...</Text></View>}
                     onScrollEndDrag={(event) => console.log(event.nativeEvent)}
                     onScroll={(event) => this.checkOffset(event.nativeEvent.contentOffset.y)}
+                    onEndReached={this.getEvents}
                     renderItem={({index, item}) => {
                         return (
                             <ListElem first={index === 0}

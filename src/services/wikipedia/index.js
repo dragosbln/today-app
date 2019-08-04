@@ -9,10 +9,12 @@ class WikiService{
 
     static getEvents = async (month, day) => {
         try{
+            console.log(month, day);
+            
             const resp = await axios.get(`${this.baseEventsUrl}/${month}/${day}/events.json`);
             return resp.data.events;
         } catch (e) {
-            console.log(e)
+            console.log(e.name)
             throw e
         }
         
