@@ -45,6 +45,7 @@ class Elem extends React.Component {
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardsContainer}>
                         {this.props.refs.map((el, i) => (
                             <PreviewCard title={el.title}
+                                onRefClicked={() => this.props.onRefClicked(el.link)}
                                 description={el.description}
                                 thumbnailUrl={el.thumbnail}
                                 key={i} />

@@ -1,10 +1,11 @@
 import React from 'react';
-import { KeyboardAvoidingView, View, Text, FlatList, Dimensions } from 'react-native';
+import { KeyboardAvoidingView, View, Text, FlatList, Dimensions, Linking } from 'react-native';
 import styles from './styles'
 import ListHeader from './listHeader'
 import Header from '../../../components/header'
 import ListElem from './listElem'
-import {AppService, ManageOpttionsService} from '../../../services'
+import AppService from '../../../services'
+import ManageOptionsService from '../../../services/manageOptionsService'
 // import {events} from '../../../utils/seed'
 
 export default class Explore extends React.Component{
@@ -53,7 +54,7 @@ export default class Explore extends React.Component{
     }
 
     checkManageOption = async () => {
-        const shouldDisplay = await ManageOpttionsService.shouldDisplay()
+        const shouldDisplay = await ManageOptionsService.shouldDisplay()
         this.setState(state => ({
             ...state,
             showDismissable: shouldDisplay
@@ -102,8 +103,12 @@ export default class Explore extends React.Component{
             currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0
         }))
-        ManageOpttionsService.incrementDisplayCount()
+        ManageOptionsService.incrementDisplayCount()
         this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
+    }
+
+    onRefClicked = (url) => {
+        Linking.openURL(url).catch((err) => console.log(err))
     }
 
     render() {
@@ -129,6 +134,7 @@ export default class Explore extends React.Component{
                                     year={item.year}
                                     description={item.description}
                                     refs={item.refs}
+                                    onRefClicked={this.onRefClicked}
                                     focused={index === this.state.focusedElementIndex}
                                     done={index < this.state.focusedElementIndex}
                                     key={index} />
