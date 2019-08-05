@@ -36,7 +36,7 @@ class AppService{
             this._resolve = null;
             this._eventsQueue = []
 
-            if(this._currenIndex === 0){
+            if(this._toLoad === 0){
                 return this._done = true
             }
 

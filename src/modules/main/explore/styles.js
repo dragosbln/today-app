@@ -12,4 +12,8 @@ export default StyleSheet.create({
         marginTop: '3%',
         backgroundColor: colors.grayLight
     },
+    listFooter: {
+        backgroundColor: '#fff',
+        alignItems: 'center'
+    }
 })

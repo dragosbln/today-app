@@ -62,13 +62,17 @@ export default class Explore extends React.Component{
     }
 
     _isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-        return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+       
+        return layoutMeasurement.height + contentOffset.y >= contentSize.height - 100;
      }
 
     checkOffset = (event) => {
         const offset = event.contentOffset.y;
-        if(offset < this.state.currentListOffset + this.screenHeight/3 && offset > this.state.currentListOffset) return
+
+        if(offset < this.state.currentListOffset + this.screenHeight/6 && offset > this.state.currentListOffset) return
         if(this._isCloseToBottom(event)) this.getEvents()
+
+        if(offset < this.state.currentListOffset + this.screenHeight/3 && offset > this.state.currentListOffset) return
 
         if(offset > this.state.currentListOffset + this.screenHeight/3){
             return this.setState(state => ({
@@ -88,7 +92,8 @@ export default class Explore extends React.Component{
         this.setState(state => ({
             ...state,
             showDismissable: false,
-            currentListOffset: -this.screenHeight/3
+            currentListOffset: -this.screenHeight/3,
+            focusedElementIndex: 0
         }))
         
         this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
@@ -106,13 +111,14 @@ export default class Explore extends React.Component{
                     onRefresh={this.getEvents}
                     data={this.state.events}
                     ListHeaderComponent={this.state.showDismissable ? <Dismissable onClose={this.onDismissableClose} /> : null}
-                    ListFooterComponent={this.state.finnishedLoading ? null : <View><Text>Loading...</Text></View>}
+                    ListFooterComponent={this.state.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     
                     onEndReachedThreshold={1}
                     renderItem={({index, item}) => {
                         return (
-                            <ListElem first={index === 0}
+                            <ListElem id={index}
+                                    first={index === 0}
                                     year={item.year}
                                     description={item.description}
                                     refs={item.refs}

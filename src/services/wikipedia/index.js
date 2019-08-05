@@ -32,11 +32,6 @@ class WikiService{
 
 }
 
-(async function(){
-    const ev = await WikiService.getEvents(1,1)
-    const page = await WikiService.getReferencePage(ev[10].wikipedia[0].title)
-    
-})()
 
 
 export default WikiService
