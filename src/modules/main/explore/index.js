@@ -1,10 +1,10 @@
 import React from 'react';
 import { KeyboardAvoidingView, View, Text, FlatList, Dimensions } from 'react-native';
 import styles from './styles'
-import Dismissable from './dismissable'
+import ListHeader from './listHeader'
 import Header from '../../../components/header'
 import ListElem from './listElem'
-import AppService from '../../../services'
+import {AppService, ManageOpttionsService} from '../../../services'
 // import {events} from '../../../utils/seed'
 
 export default class Explore extends React.Component{
@@ -16,7 +16,7 @@ export default class Explore extends React.Component{
             loadingData: true,
             error: false,
             events: [],
-            currentListOffset: this.screenHeight/6,
+            currentListOffset: -this.screenHeight/3 + this.screenHeight/11,
             focusedElementIndex: 0,
             showDismissable: true,
             finnishedLoading: false
@@ -50,14 +50,18 @@ export default class Explore extends React.Component{
             ],
             finnishedLoading: eventsResponse.done
         }))
-       
+    }
 
-        // console.log(events);
-        
-        
+    checkManageOption = async () => {
+        const shouldDisplay = await ManageOpttionsService.shouldDisplay()
+        this.setState(state => ({
+            ...state,
+            showDismissable: shouldDisplay
+        }))
     }
 
     componentDidMount = () => {
+        this.checkManageOption()
         this.getEvents()
     }
 
@@ -69,12 +73,15 @@ export default class Explore extends React.Component{
     checkOffset = (event) => {
         const offset = event.contentOffset.y;
 
-        if(offset < this.state.currentListOffset + this.screenHeight/6 && offset > this.state.currentListOffset) return
-        if(this._isCloseToBottom(event)) this.getEvents()
 
+        if(offset < this.state.currentListOffset + this.screenHeight/6 && offset > this.state.currentListOffset) {
+            if(this._isCloseToBottom(event)) this.getEvents()
+        }
+        
         if(offset < this.state.currentListOffset + this.screenHeight/3 && offset > this.state.currentListOffset) return
 
         if(offset > this.state.currentListOffset + this.screenHeight/3){
+            
             return this.setState(state => ({
                 ...state,
                 currentListOffset: state.currentListOffset + this.screenHeight/3,
@@ -95,7 +102,7 @@ export default class Explore extends React.Component{
             currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0
         }))
-        
+        ManageOpttionsService.incrementDisplayCount()
         this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
     }
 
@@ -110,7 +117,7 @@ export default class Explore extends React.Component{
                     refreshing={this.state.loadingData && this.state.events.length === 0}
                     onRefresh={this.getEvents}
                     data={this.state.events}
-                    ListHeaderComponent={this.state.showDismissable ? <Dismissable onClose={this.onDismissableClose} /> : null}
+                    ListHeaderComponent={<ListHeader showDismissable={this.state.showDismissable} />}
                     ListFooterComponent={this.state.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     

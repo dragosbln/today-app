@@ -1,6 +1,7 @@
 import WikiService from './wikipedia'
+import StorageService from './storage'
 
-class AppService{
+export class AppService{
     constructor() {
         
     }
@@ -99,6 +100,16 @@ class AppService{
     }
 }
 
-// AppService.getEvents()
+export class ManageOpttionsService{
+    static async shouldDisplay(){
+        const count = await StorageService.get('count')
+        if(count === null || count.data < 3) return true
+        return false
+    }
 
-export default AppService
+    static async incrementDisplayCount(){
+        const count = await StorageService.get('count')
+        let newCount = count === null ? 1 : count.data + 1
+        StorageService.store('count', {data: newCount})
+    }
+}
