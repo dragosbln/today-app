@@ -93,8 +93,13 @@ export default class AppService{
         if(this._resolve) return null
 
         return new Promise((resolve, reject) => {
-            this._resolve=resolve;
-            this._checkEvents()
+            try{
+                this._resolve=resolve;
+                this._checkEvents()
+            }   catch (e) {
+                reject(e)
+            }
+            
         })
     }
 }
