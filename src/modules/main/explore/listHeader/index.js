@@ -11,7 +11,7 @@ export default header = props => {
 
     return(
         <View style={styles.base}>
-            {props.showDismissable ? <Dismissable /> : null}
+            {props.showDismissable ? <Dismissable onClose={props.onDismissableClose}/> : null}
             <View style={styles.listHeader}>
                 <View style={styles.imageView}>
                     <Image source={calendar} style={styles.image}/>

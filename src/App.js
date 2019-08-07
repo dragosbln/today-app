@@ -69,7 +69,7 @@ const stackNavigator = createStackNavigator({
   Onboarding3: Onboarding3Screen,
 }, {
   headerMode: 'none',
-  initialRouteName: 'Onboarding3'
+  initialRouteName: 'Welcome'
 })
 
 const appNavigator = createSwitchNavigator({

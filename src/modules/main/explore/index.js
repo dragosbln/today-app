@@ -122,7 +122,7 @@ export default class Explore extends React.Component{
                     refreshing={this.state.loadingData && this.state.events.length === 0}
                     onRefresh={this.getEvents}
                     data={this.state.events}
-                    ListHeaderComponent={<ListHeader showDismissable={this.state.showDismissable} />}
+                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.state.showDismissable} />}
                     ListFooterComponent={this.state.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     
