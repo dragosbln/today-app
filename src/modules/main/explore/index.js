@@ -17,7 +17,7 @@ export default class Explore extends React.Component{
             // loadingData: true,
             // error: false,
             // events: [],
-            currentListOffset: -this.screenHeight/3 + this.screenHeight/11,
+            currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0,
             showDismissable: true,
             // finnishedLoading: false
@@ -53,16 +53,26 @@ export default class Explore extends React.Component{
         this.props.getEvents()
     }
 
-    checkManageOption = async () => {
-        const shouldDisplay = await ManageOptionsService.shouldDisplay()
-        this.setState(state => ({
-            ...state,
-            showDismissable: shouldDisplay
-        }))
+    // checkManageOption = async () => {
+    //     const shouldDisplay = await ManageOptionsService.shouldDisplay()
+    //     this.setState(state => ({
+    //         ...state,
+    //         showDismissable: shouldDisplay
+    //     }))
+    // }
+
+    setInitialScrollConfig = () => {
+        if(this.props.shouldDisplay) {
+            this.setState(state => ({
+                ...state,
+                currentListOffset: -this.screenHeight/3 + this.screenHeight/2,
+            }))
+        }
     }
 
     componentDidMount = () => {
-        this.checkManageOption()
+        // this.checkManageOption()
+        this.setInitialScrollConfig()
         this.getEvents()
     }
 
@@ -99,12 +109,12 @@ export default class Explore extends React.Component{
     onDismissableClose = () => {
         this.setState(state => ({
             ...state,
-            showDismissable: false,
             currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0
         }))
-        ManageOptionsService.incrementDisplayCount()
         this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
+        this.props.closeDismissable()
+
     }
 
     onRefClicked = (url) => {
@@ -122,7 +132,7 @@ export default class Explore extends React.Component{
                     refreshing={this.props.loadingData && this.props.events.length === 0}
                     onRefresh={this.getEvents}
                     data={this.props.events}
-                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.state.showDismissable} />}
+                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.props.shouldDisplay} />}
                     ListFooterComponent={this.props.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     

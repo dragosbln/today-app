@@ -1,22 +1,37 @@
-import ManageOptionsService from '../../services/manageOptionsService'
 import types from './types'
 
-const initializeState = async (state) => {
-    state.shouldDisplay = await ManageOptionsService.shouldDisplay()
-}
 
 const initialState = {
-    showDismissable: null
+    shouldDisplay: null,
+    setup: {
+        pending: false,
+        success: false,
+        error: false
+    }
 }
 
-initializeState(initialState)
+const updateSetupState = (key='', val) => ({
+    ...initialState.setup,
+    [key]: val
+})
 
-const reducer = async (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch(action.type){
         case types.CLOSE_DISMISSABLE:
             return{
                 ...state,
-                showDismissable: false
+                shouldDisplay: false
+            }
+        case types.INITIAL_SETUP_PENDING:
+            return{
+                ...state,
+                setup: updateSetupState('pending', true)
+            }
+        case types.INITIAL_SETUP_SUCCESS:
+            return{
+                ...state,
+                shouldDisplay: action.payload.shouldDisplay,
+                setup: updateSetupState('success', true)
             }
         default:
             return state
@@ -24,6 +39,4 @@ const reducer = async (state = initialState, action) => {
 }
 
 
-export default {
-    reducer
-}
+export default reducer
