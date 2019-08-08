@@ -14,8 +14,13 @@ const success = (data) => ({
     payload: data
 })
 
+const finnishedLoading = () => ({
+    type: types.SUCCESS,
+})
+
 export default {
     pending,
     success,
-    error
+    error,
+    finnishedLoading
 }

@@ -1,5 +1,6 @@
 export default {
-    PENDING: 'PENDING',
-    SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR'
+    PENDING: 'events/PENDING',
+    SUCCESS: 'events/SUCCESS',
+    ERROR: 'events/ERROR',
+    FINNISHED_LOADING: 'events/FINNISHED_LOADING'
 }

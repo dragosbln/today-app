@@ -5,7 +5,8 @@ const initialState = {
     api: {
         pending: false,
         success: false,
-        error: null
+        error: null,
+        finnishedLoading: false
     }
 }
 
@@ -29,8 +30,16 @@ export default (state = initialState, action) => {
         case types.SUCCESS: 
             return ({
                 ...state,
-                events: action.payload,
+                events: [
+                    ...state.events,
+                    ...action.payload
+                ],
                 api: updateApiState('success', true)
+            })
+        case types.FINNISHED_LOADING:
+            return({
+                ...state,
+                api: updateApiState('finnishedLoading', true)
             })
         default: 
             return state

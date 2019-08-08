@@ -1,12 +1,20 @@
-import eventsAC from './actions-creator'
+import eventsAC from './action-creators'
 import Service from '../../services'
 
-const getEvents = () => async (dispatch) => {
+const getEvents = () => async (dispatch, getState) => {
 
+    if(getState().events.api.pending) return
     dispatch(eventsAC.pending())
     try{
-        const events = await Service.getEvents();
-        dispatch(eventsAC.success(events))
+        const eventsResp = await Service.getEvents();
+        console.log('fetched events:');
+        console.log(eventsResp);
+
+        
+        if(eventsResp.done){
+            dispatch(eventsAC.finnishedLoading())
+        }
+        dispatch(eventsAC.success(eventsResp.data))
     } catch (e) {
         dispatch(eventsAC.error(e))
     }
