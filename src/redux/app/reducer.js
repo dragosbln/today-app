@@ -20,7 +20,10 @@ const reducer = (state = initialState, action) => {
         case types.CLOSE_DISMISSABLE:
             return{
                 ...state,
-                shouldDisplay: false
+                shouldDisplay: false,
+                setup: {
+                    ...initialState.setup
+                }
             }
         case types.INITIAL_SETUP_PENDING:
             return{
