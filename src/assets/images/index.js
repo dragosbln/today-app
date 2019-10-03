@@ -1,0 +1,8 @@
+export const logo = require('./logo.png')
+export const telescope = require('./telescope.png')
+export const translation = require('./translation.png')
+export const reports = require('./reports.png')
+export const explore = require('./explore.png')
+export const dummy = require('./dummy.jpg')
+export const calendar = require('./calendar.png')
+export const loading = require('./loading.png')
