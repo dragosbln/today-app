@@ -22,6 +22,7 @@ export default class Screen extends React.Component {
         }))
     }
     nextScreen(){
+        this.props.setShouldDisplayOnboarding()
         this.props.navigation.navigate('Home')
     }
     render() {

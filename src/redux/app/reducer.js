@@ -2,7 +2,8 @@ import types from './types'
 
 
 const initialState = {
-    shouldDisplay: null,
+    shouldDisplayManageOptions: null,
+    shouldDisplayOnboarding: null,
     setup: {
         pending: false,
         success: false,
@@ -20,7 +21,7 @@ const reducer = (state = initialState, action) => {
         case types.CLOSE_DISMISSABLE:
             return{
                 ...state,
-                shouldDisplay: false,
+                shouldDisplayManageOptions: false,
                 setup: {
                     ...initialState.setup
                 }
@@ -33,7 +34,8 @@ const reducer = (state = initialState, action) => {
         case types.INITIAL_SETUP_SUCCESS:
             return{
                 ...state,
-                shouldDisplay: action.payload.shouldDisplay,
+                shouldDisplayManageOptions: action.payload.shouldDisplayManageOptions,
+                shouldDisplayOnboarding: action.payload.shouldDisplayOnboarding,
                 setup: updateSetupState('success', true)
             }
         default:

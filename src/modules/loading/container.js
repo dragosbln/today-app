@@ -4,7 +4,8 @@ import actions from '../../redux/app/actions'
 
 const mapStateToProps = (state) => {
     return{
-        setupSuccess: state.app.setup.success
+        setupSuccess: state.app.setup.success,
+        shouldDisplayOnboarding: state.app.shouldDisplayOnboarding
     }
     
 }

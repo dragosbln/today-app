@@ -62,7 +62,7 @@ export default class Explore extends React.Component{
     // }
 
     setInitialScrollConfig = () => {
-        if(this.props.shouldDisplay) {
+        if(this.props.shouldDisplayManageOptions) {
             this.setState(state => ({
                 ...state,
                 currentListOffset: -this.screenHeight/3 + this.screenHeight/2,
@@ -132,7 +132,7 @@ export default class Explore extends React.Component{
                     refreshing={this.props.loadingData && this.props.events.length === 0}
                     onRefresh={this.getEvents}
                     data={this.props.events}
-                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.props.shouldDisplay} />}
+                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.props.shouldDisplayManageOptions} />}
                     ListFooterComponent={this.props.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     

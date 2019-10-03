@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import WelcomeScreen from './modules/onboarding/welcome'
 import Onboarding1Screen from './modules/onboarding/onboarding1'
 import Onboarding2Screen from './modules/onboarding/onboarding2'
-import Onboarding3Screen from './modules/onboarding/onboarding3'
+import Onboarding3Screen from './modules/onboarding/onboarding3/container'
 import ExploreScreen from './modules/main/explore/container'
 import PlacesScreen from './modules/main/places'
 import SavedScreen from './modules/main/saved'

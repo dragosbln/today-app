@@ -14,7 +14,12 @@ export default class Loading extends React.Component{
 
     render(){
         if(this.props.setupSuccess) {
-            this.props.navigation.navigate('Home') 
+            if(this.props.shouldDisplayOnboarding){
+                this.props.navigation.navigate('Onboarding') 
+            } else {
+                this.props.navigation.navigate('Home') 
+            }
+            
         }
         return(
             <ImageBackground source={loading} style={styles.base}></ImageBackground>

@@ -1,10 +1,16 @@
 import appAC from './action-creators'
 import ManageOptionsService from '../../services/manageOptionsService'
+import DisplayOnboardingService from '../../services/displayOnboardingService'
 
 const initialSetup = () => async (dispatch) => {
     dispatch(appAC.initialSetupPending())
-    const shouldDisplay = await ManageOptionsService.shouldDisplay()
-    dispatch(appAC.initialSetupSuccess({shouldDisplay}))
+    const shouldDisplayManageOptions = await ManageOptionsService.shouldDisplay()
+    const shouldDisplayOnboarding = await DisplayOnboardingService.getShouldDisplayOnboarding()
+    dispatch(appAC.initialSetupSuccess({shouldDisplayManageOptions, shouldDisplayOnboarding}))
+}
+
+const setShouldDisplayOnboarding = () => async (dispatch) => {
+    DisplayOnboardingService.setShouldDisplayOnboarding()
 }
 
 const closeDismissable = () => (dispatch) => {
@@ -14,5 +20,6 @@ const closeDismissable = () => (dispatch) => {
 
 export default {
     closeDismissable,
-    initialSetup
+    initialSetup,
+    setShouldDisplayOnboarding
 }

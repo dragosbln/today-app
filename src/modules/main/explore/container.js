@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
     loadingData: state.events.api.pending,
     error: state.events.api.error,
     finnishedLoading: state.events.api.finnishedLoading,
-    shouldDisplay: state.app.shouldDisplay
+    shouldDisplayManageOptions: state.app.shouldDisplayManageOptions
 })
 
 const mapDispatchToProps = (dispatch) => ({
