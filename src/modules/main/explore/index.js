@@ -1,10 +1,11 @@
 import React from 'react';
-import { KeyboardAvoidingView, View, Text, FlatList, Dimensions } from 'react-native';
+import { KeyboardAvoidingView, View, Text, FlatList, Dimensions, Linking } from 'react-native';
 import styles from './styles'
-import Dismissable from './dismissable'
+import ListHeader from './listHeader'
 import Header from '../../../components/header'
 import ListElem from './listElem'
 import AppService from '../../../services'
+import ManageOptionsService from '../../../services/manageOptionsService'
 // import {events} from '../../../utils/seed'
 
 export default class Explore extends React.Component{
@@ -13,51 +14,65 @@ export default class Explore extends React.Component{
         super(props)
         this.screenHeight = Dimensions.get('window').height
         this.state = {
-            loadingData: true,
-            error: false,
-            events: [],
-            currentListOffset: this.screenHeight/6,
+            // loadingData: true,
+            // error: false,
+            // events: [],
+            currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0,
             showDismissable: true,
-            finnishedLoading: false
+            // finnishedLoading: false
         }
         this.scrollRef = React.createRef()
     }
 
     getEvents = async () => {
 
-        if(this.state.finnishedLoading) return
-        this.setState(state => ({
-            ...state,
-            loadingData: true
-        }))
+        if(this.props.finnishedLoading) return
+        // this.setState(state => ({
+        //     ...state,
+        //     loadingData: true
+        // }))
+        // const eventsResponse = await AppService.getEvents();
+        // if(!eventsResponse) {
+        //     this.setState(state => ({
+        //         ...state,
+        //         loadingData: false
+        //     }))
+        //     return
+        // }
         
-        const eventsResponse = await AppService.getEvents();
-        if(!eventsResponse) {
+        // this.setState(state => ({
+        //     ...state,
+        //     loadingData: false,
+        //     events: [
+        //         ...state.events,
+        //         ...eventsResponse.data
+        //     ],
+        //     finnishedLoading: eventsResponse.done
+        // }))
+        this.props.getEvents()
+    }
+
+    // checkManageOption = async () => {
+    //     const shouldDisplay = await ManageOptionsService.shouldDisplay()
+    //     this.setState(state => ({
+    //         ...state,
+    //         showDismissable: shouldDisplay
+    //     }))
+    // }
+
+    setInitialScrollConfig = () => {
+        if(this.props.shouldDisplay) {
             this.setState(state => ({
                 ...state,
-                loadingData: false
+                currentListOffset: -this.screenHeight/3 + this.screenHeight/2,
             }))
-            return
         }
-        
-        this.setState(state => ({
-            ...state,
-            loadingData: false,
-            events: [
-                ...state.events,
-                ...eventsResponse.data
-            ],
-            finnishedLoading: eventsResponse.done
-        }))
-       
-
-        // console.log(events);
-        
-        
     }
 
     componentDidMount = () => {
+        // this.checkManageOption()
+        this.setInitialScrollConfig()
         this.getEvents()
     }
 
@@ -69,12 +84,15 @@ export default class Explore extends React.Component{
     checkOffset = (event) => {
         const offset = event.contentOffset.y;
 
-        if(offset < this.state.currentListOffset + this.screenHeight/6 && offset > this.state.currentListOffset) return
-        if(this._isCloseToBottom(event)) this.getEvents()
 
+        if(offset < this.state.currentListOffset + this.screenHeight/6 && offset > this.state.currentListOffset) {
+            if(this._isCloseToBottom(event)) this.getEvents()
+        }
+        
         if(offset < this.state.currentListOffset + this.screenHeight/3 && offset > this.state.currentListOffset) return
 
         if(offset > this.state.currentListOffset + this.screenHeight/3){
+            
             return this.setState(state => ({
                 ...state,
                 currentListOffset: state.currentListOffset + this.screenHeight/3,
@@ -91,12 +109,16 @@ export default class Explore extends React.Component{
     onDismissableClose = () => {
         this.setState(state => ({
             ...state,
-            showDismissable: false,
             currentListOffset: -this.screenHeight/3,
             focusedElementIndex: 0
         }))
-        
         this.scrollRef.current.scrollToOffset({ y: 0, animated: false})
+        this.props.closeDismissable()
+
+    }
+
+    onRefClicked = (url) => {
+        Linking.openURL(url).catch((err) => console.log(err))
     }
 
     render() {
@@ -107,11 +129,11 @@ export default class Explore extends React.Component{
                 <FlatList
                     ref={this.scrollRef}
                     style={styles.main}
-                    refreshing={this.state.loadingData && this.state.events.length === 0}
+                    refreshing={this.props.loadingData && this.props.events.length === 0}
                     onRefresh={this.getEvents}
-                    data={this.state.events}
-                    ListHeaderComponent={this.state.showDismissable ? <Dismissable onClose={this.onDismissableClose} /> : null}
-                    ListFooterComponent={this.state.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
+                    data={this.props.events}
+                    ListHeaderComponent={<ListHeader onDismissableClose={this.onDismissableClose} showDismissable={this.props.shouldDisplay} />}
+                    ListFooterComponent={this.props.finnishedLoading ? null : <View style={styles.listFooter}><Text>Loading...</Text></View>}
                     onScroll={(event) => {this.checkOffset(event.nativeEvent)}}
                     
                     onEndReachedThreshold={1}
@@ -122,6 +144,7 @@ export default class Explore extends React.Component{
                                     year={item.year}
                                     description={item.description}
                                     refs={item.refs}
+                                    onRefClicked={this.onRefClicked}
                                     focused={index === this.state.focusedElementIndex}
                                     done={index < this.state.focusedElementIndex}
                                     key={index} />

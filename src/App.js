@@ -5,12 +5,17 @@ import WelcomeScreen from './modules/onboarding/welcome'
 import Onboarding1Screen from './modules/onboarding/onboarding1'
 import Onboarding2Screen from './modules/onboarding/onboarding2'
 import Onboarding3Screen from './modules/onboarding/onboarding3'
-import ExploreScreen from './modules/main/explore'
+import ExploreScreen from './modules/main/explore/container'
 import PlacesScreen from './modules/main/places'
 import SavedScreen from './modules/main/saved'
 import HistoryScreen from './modules/main/history'
+import LoadingScreen from './modules/loading/container'
 import Icon from './components/icon'
 import styles from './styles'
+import {Provider} from 'react-redux'
+import store from './redux/store'
+// import _ from './test'
+
 
 console.disableYellowBox = true
 
@@ -69,14 +74,15 @@ const stackNavigator = createStackNavigator({
   Onboarding3: Onboarding3Screen,
 }, {
   headerMode: 'none',
-  initialRouteName: 'Onboarding3'
+  initialRouteName: 'Welcome'
 })
 
 const appNavigator = createSwitchNavigator({
+  Loading: LoadingScreen,
   Onboarding: stackNavigator,
   Home: stackDecorator
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'Loading'
 })
 
 const AppContainer = createAppContainer(appNavigator);
@@ -85,7 +91,9 @@ export default class App extends React.Component{
 
   render(){
     return(
-      <AppContainer />
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     )
   }
 }

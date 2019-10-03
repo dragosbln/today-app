@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import styles from './styles'
-import Paragraph from '../../../../components/text/Paragraph'
-import Button from '../../../../components/buttons/baseButton'
-import {explore} from '../../../../assets/images'
+import Paragraph from '../../../../../components/text/Paragraph'
+import Button from '../../../../../components/buttons/baseButton'
+import {explore} from '../../../../../assets/images'
 
 
 const dismissable = props => {

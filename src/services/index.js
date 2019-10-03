@@ -1,6 +1,6 @@
 import WikiService from './wikipedia'
 
-class AppService{
+export default class AppService{
     constructor() {
         
     }
@@ -93,12 +93,14 @@ class AppService{
         if(this._resolve) return null
 
         return new Promise((resolve, reject) => {
-            this._resolve=resolve;
-            this._checkEvents()
+            try{
+                this._resolve=resolve;
+                this._checkEvents()
+            }   catch (e) {
+                reject(e)
+            }
+            
         })
     }
 }
 
-// AppService.getEvents()
-
-export default AppService
