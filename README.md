@@ -10,6 +10,18 @@ The design for a wikipedia mobile app looked really cool, so I went on to implem
 * Redux
 * Git
 
+## Installation:
+
+From the directory in which you've forked the project, run:
+
+```
+npm install
+cd ios
+pod install
+cd ..
+react-native run-ios
+```
+
 ## Functionalities:
 
 The first time you open the app, you are taken through the "onboarding" process: 
